@@ -1,48 +1,23 @@
-use std::io::{self, prelude::*, BufReader};
-use std::fs::File;
+use std::io;
+use std::env;
 
-fn main() -> io::Result<()> {
-    let f = File::open("inputs/input1.txt")?;
-    let reader = BufReader::new(f);
+mod day1;
+mod day2;
 
-    let mut nums: Vec<i32> = Vec::new();
-    for l in reader.lines(){
-        nums.push(l?.parse().unwrap());
+fn exec_day(day: u8) {
+    match day {
+        1 => day1::solve(),
+        2 => day2::solve(),
+        _ => ()
     }
-    println!("{:?}", nums);
+}
+
+fn main() {
+    let day = env::args()
+        .nth(1)
+        .unwrap_or_else(|| String::from("1"))
+        .parse()
+        .unwrap_or(1);
     
-    nums.sort();
-
-    let mut reversed = nums.clone();
-    reversed.reverse();
-
-    'outer: for num_reversed in reversed.iter()
-    {
-        for num in nums.iter()
-        {
-            let sum = num + num_reversed;
-            println!("{:?}", sum);
-            if (sum == 2020)
-            {
-                println!("found {:?}", (num * num_reversed));
-                break 'outer;
-            }
-            else if sum > 2020
-            {
-                break;
-            }
-        }
-    }
-
-    Ok(())
-
-
-//    let differences: Vec<i32> = nums.clone().into_iter().map(|x| 2020 - x).collect();
-//
-//    for num in differences.iter()
-//    {
-//
-//    
-//
-//    println!("{:?}", nums);
+    exec_day(day);
 }
