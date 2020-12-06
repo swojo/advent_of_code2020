@@ -4,12 +4,14 @@ use std::env;
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 
 fn exec_day(day: u8) {
     match day {
         1 => day1::solve(),
         2 => day2::solve(),
         3 => day3::solve(),
+        4 => day4::solve(),
         _ => ()
     }
 }
