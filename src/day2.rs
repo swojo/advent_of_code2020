@@ -1,4 +1,4 @@
-use std::io::{self, prelude::*, BufReader};
+use std::io::{prelude::*, BufReader};
 use std::fs::File;
 use std::collections::HashMap;
 use itertools::Itertools;
@@ -12,9 +12,9 @@ pub fn solve_part1() -> i32 {
         input.push(l.unwrap());
     }
 
-    let valid_passwords = &input.iter().fold(0, |mut accValid, i| {
+    let valid_passwords = &input.iter().fold(0, |mut acc_valid, i| {
         let mut iter = i.split_whitespace();
-        let (mut min, mut max) = iter.next().unwrap().split("-").next_tuple().unwrap();
+        let (min, max) = iter.next().unwrap().split("-").next_tuple().unwrap();
         let letter = iter.next().unwrap().chars().next().unwrap();
         let pass = iter.next().unwrap().chars().fold(HashMap::new(), |mut acc, c| {
             *acc.entry(c).or_insert(0) += 1;
@@ -28,12 +28,12 @@ pub fn solve_part1() -> i32 {
         match occurrences {
             Some(x) => {
                 if x >= &min && x <= &max {
-                    accValid += 1;
+                    acc_valid += 1;
                 }
             },
             None => {}
         }
-        accValid
+        acc_valid
     });
 
     *valid_passwords
@@ -62,20 +62,19 @@ pub fn solve_part2() -> i32 {
         }
     }
 
-    let valid_passwords = &input.iter().fold(0, |mut accValid, i| {
+    let valid_passwords = &input.iter().fold(0, |mut acc_valid, i| {
         let mut iter = i.split_whitespace();
-        let (mut min, mut max) = iter.next().unwrap().split("-").next_tuple().unwrap();
+        let (min, max) = iter.next().unwrap().split("-").next_tuple().unwrap();
         let letter = iter.next().unwrap().chars().next().unwrap();
 
         let min = min.to_string().parse::<usize>().unwrap()-1;
         let max= max.to_string().parse::<usize>().unwrap()-1;
 
-        let mut pass = iter.next().unwrap();
-        let first = char_matches(pass, letter, min);
+        let pass = iter.next().unwrap();
         if char_matches(pass, letter, min) ^ char_matches(pass, letter, max) {
-            accValid +=1;
+            acc_valid +=1;
         }
-        accValid
+        acc_valid
     });
 
     *valid_passwords

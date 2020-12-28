@@ -1,4 +1,3 @@
-use std::io;
 use std::env;
 
 mod tools;

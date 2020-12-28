@@ -1,6 +1,5 @@
-use std::io::{self, prelude::*, BufReader};
+use std::io::{prelude::*, BufReader};
 use std::fs::File;
-use itertools::Itertools;
 
 pub fn parse_input(filename: &str) -> Vec<String> {
     let f = File::open(filename).unwrap();
@@ -13,37 +12,36 @@ pub fn parse_input(filename: &str) -> Vec<String> {
     input
 }
 
-pub fn findOneDimension(lowerChar: char, upperChar: char, min: usize, max: usize, commands: &str) -> usize {
-    commands.chars().fold((min, max), |(mut currMin, mut currMax), i| {
-        let diff = (currMax - currMin)/2 + 1;
+pub fn find_one_dimension(lower_char: char, upper_char: char, min: usize, max: usize, commands: &str) -> usize {
+    commands.chars().fold((min, max), |(mut curr_min, mut curr_max), i| {
+        let diff = (curr_max - curr_min)/2 + 1;
         match i {
-            k if (k == lowerChar) => { currMax -= diff; },
-            k if (k == upperChar) => { currMin += diff; },
+            k if (k == lower_char) => { curr_max -= diff; },
+            k if (k == upper_char) => { curr_min += diff; },
             _ => {}
         }
-        (currMin, currMax)
+        (curr_min, curr_max)
     }).0 
 }
 
-pub fn calculateSeatIds(input: &Vec<String>) -> Vec<usize> {
+pub fn calculate_seat_ids(input: &Vec<String>) -> Vec<usize> {
     input.iter()
         .map(|x| x.split_at(7)).collect::<Vec<(&str, &str)>>().iter()
         .map(|y| {
-        let rowNum = findOneDimension('F', 'B', 0, 127, y.0);
-        let colNum = findOneDimension('L', 'R', 0, 7, y.1);
-         //   println!("{:?}, {:?}", rowNum, colNum);
-        8 * rowNum +  colNum
+        let row_num = find_one_dimension('F', 'B', 0, 127, y.0);
+        let col_num = find_one_dimension('L', 'R', 0, 7, y.1);
+         //   println!("{:?}, {:?}", row_num, col_num);
+        8 * row_num +  col_num
     }).collect::<Vec<usize>>()
 }
 
-pub fn solve_part1(seatIds: &Vec<usize>) -> usize {
-    *seatIds.iter().max().unwrap()
+pub fn solve_part1(seat_ids: &Vec<usize>) -> usize {
+    *seat_ids.iter().max().unwrap()
 }
 
 pub fn find_missing(v: &mut[usize]) -> usize {
-    println!{"{:?}", v};
     let length = v.len();
-    if (length == 2)
+    if length == 2
     {
         return v[0] + 1;
     }
@@ -59,22 +57,21 @@ pub fn find_missing(v: &mut[usize]) -> usize {
     }
 }
 
-pub fn solve_part2(seatIds: &mut Vec<usize>) -> usize {
+pub fn solve_part2(seat_ids: &mut Vec<usize>) -> usize {
 
-    seatIds.sort();
-    println!{"{:?}", seatIds}; 
-    let length = seatIds.len();
+    seat_ids.sort();
+    let length = seat_ids.len();
 
-    find_missing(&mut seatIds[0..length])
+    find_missing(&mut seat_ids[0..length])
 }
 
 
 pub fn solve() {
     let input = parse_input("inputs/input5.txt");
-    let mut seatIds = calculateSeatIds(&input);
+    let mut seat_ids = calculate_seat_ids(&input);
 
-    let part1_solution  = solve_part1(&seatIds);
-    let part2_solution  = solve_part2(&mut seatIds);
+    let part1_solution  = solve_part1(&seat_ids);
+    let part2_solution  = solve_part2(&mut seat_ids);
 
     println!{"Part 1: {:?}, Part 2: {:?}", part1_solution, part2_solution};
 }

@@ -4,20 +4,20 @@ use std::collections::HashSet;
 
 pub fn solve_part1(input: &str, expected_keys: &HashSet<&str>) -> i32 {
 
-    let validPassports = input.split("\n\n").collect::<Vec::<&str>>().iter().fold(0, |mut acc, i| {
-        let currPass = i.split_whitespace().collect::<Vec::<&str>>().iter().fold(HashSet::new(), |mut hash, field| {
-            let (mut key, _) = field.split(":").collect_tuple().unwrap();
+    let valid_passports = input.split("\n\n").collect::<Vec::<&str>>().iter().fold(0, |mut acc, i| {
+        let curr_pass = i.split_whitespace().collect::<Vec::<&str>>().iter().fold(HashSet::new(), |mut hash, field| {
+            let (key, _) = field.split(":").collect_tuple().unwrap();
             hash.insert(key);
             hash
         });
-        let diff : HashSet<_> = expected_keys.difference(&currPass).collect();
+        let diff : HashSet<_> = expected_keys.difference(&curr_pass).collect();
         if diff.is_empty() {
             acc += 1;
         }
 
         acc
     });
-    validPassports
+    valid_passports
 }
 
 pub fn is_valid (key: &str, value: &str) -> bool {
@@ -36,9 +36,9 @@ pub fn is_valid (key: &str, value: &str) -> bool {
             year >= 2020 && year <= 2030 
         },
         "hgt" => {
-            let unitIndex = value.find("in");
+            let unit_index = value.find("in");
             let (height, units) = 
-                match unitIndex {
+                match unit_index {
                     Some(x) => {
                         value.split_at(x)
                     }
@@ -88,22 +88,22 @@ pub fn is_valid (key: &str, value: &str) -> bool {
 
 pub fn solve_part2(input: &str, expected_keys: &HashSet<&str>) -> i32 {
 
-    let validPassports = input.split("\n\n").collect::<Vec::<&str>>().iter().fold(0, |mut acc, i| {
-        let currPass = i.split_whitespace().collect::<Vec::<&str>>().iter().fold(HashSet::new(), |mut hash, field| {
-            let (mut key, value) = field.split(":").collect_tuple().unwrap();
+    let valid_passports = input.split("\n\n").collect::<Vec::<&str>>().iter().fold(0, |mut acc, i| {
+        let curr_pass = i.split_whitespace().collect::<Vec::<&str>>().iter().fold(HashSet::new(), |mut hash, field| {
+            let (key, value) = field.split(":").collect_tuple().unwrap();
             if is_valid(key, value) {
                 hash.insert(key);
             }
             hash
         });
-        let diff : HashSet<_> = expected_keys.difference(&currPass).collect();
+        let diff : HashSet<_> = expected_keys.difference(&curr_pass).collect();
         if diff.is_empty() {
             acc += 1;
         }
 
         acc
     });
-    validPassports
+    valid_passports
 }
 
 pub fn solve() {

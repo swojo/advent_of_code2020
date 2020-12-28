@@ -1,4 +1,4 @@
-use std::io::{self, prelude::*, BufReader};
+use std::io::{prelude::*, BufReader};
 use std::fs::File;
 use itertools::Itertools;
 
@@ -15,12 +15,12 @@ pub fn solve_part1() -> Option<i32>{
     let mut reversed = nums.clone();
     reversed.reverse();
 
-    'outer: for num_reversed in reversed.iter()
+    for num_reversed in reversed.iter()
     {
         for num in nums.iter()
         {
             let sum = num + num_reversed;
-            if (sum == 2020)
+            if sum == 2020
             {
                 return Some(num*num_reversed)
             }
@@ -54,6 +54,6 @@ pub fn solve_part2() -> Option<i32> {
 }
 
 pub fn solve() {
-    println!("Part 1: {:?}, Part 2: {:?} \n", solve_part1().unwrap(), solve_part2().unwrap());;
+    println!("Part 1: {:?}, Part 2: {:?} \n", solve_part1().unwrap(), solve_part2().unwrap());
 }
 

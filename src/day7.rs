@@ -1,4 +1,4 @@
-use std::io::{self, prelude::*, BufReader};
+use std::io::{prelude::*, BufReader};
 use std::fs::File;
 use std::collections::HashMap;
 use std::collections::HashSet;
@@ -18,7 +18,7 @@ pub fn parse_input(filename: &str) -> Vec<String> {
 
 pub fn trim_description(original: &str) -> Option<(i32, String)> {
     let tmp = original.split(" ").collect::<Vec::<&str>>();
-    if let Some((_, mut tmp)) = tmp.split_last() {
+    if let Some((_, tmp)) = tmp.split_last() {
         
         match  tmp[1].parse::<i32>() {
             Ok(x) => {
@@ -32,7 +32,7 @@ pub fn trim_description(original: &str) -> Option<(i32, String)> {
 
 pub fn trim_outer(original: &str) -> Option<String> {
     let tmp = original.split("bag").collect::<Vec::<&str>>();
-    if let Some((_, mut tmp)) = tmp.split_last() {
+    if let Some((_, tmp)) = tmp.split_last() {
         return Some(tmp.iter().join(" ").trim().to_string());
     }
     None
@@ -41,7 +41,7 @@ pub fn trim_outer(original: &str) -> Option<String> {
 pub fn get_map_part1(input: &Vec<String>) -> HashMap<String, Vec<String>> {
     let mut map : HashMap<String, Vec<String>> = HashMap::new();
     for line in input.iter() {
-        let (mut outer_bag, mut inner_bag) = line.split("contain").collect_tuple().unwrap();
+        let (outer_bag, inner_bag) = line.split("contain").collect_tuple().unwrap();
         let outer_bag= trim_outer(outer_bag).unwrap();
      
         let values  = inner_bag.split(",").collect::<Vec::<&str>>();
@@ -65,7 +65,7 @@ pub fn get_map_part1(input: &Vec<String>) -> HashMap<String, Vec<String>> {
 pub fn get_map_part2(input: &Vec<String>) -> HashMap<String, Vec<(String, i32)>> {
     let mut map : HashMap<String, Vec<(String, i32)>> = HashMap::new();
     for line in input.iter() {
-        let (mut outer_bag, mut inner_bag) = line.split("contain").collect_tuple().unwrap();
+        let (outer_bag, inner_bag) = line.split("contain").collect_tuple().unwrap();
         let outer_bag= trim_outer(outer_bag).unwrap();
      
         let values  = inner_bag.split(",").collect::<Vec::<&str>>();
@@ -112,7 +112,7 @@ pub fn solve() {
     let part1_solution = result_hash.len();
 
     // Subtract -1 because shiny gold is also counted
-    let mut part2_solution = solve_part2(&get_map_part2(&input), "shiny gold") -1;
+    let part2_solution = solve_part2(&get_map_part2(&input), "shiny gold") -1;
 
     println!("Part 1: {:?}\n Part 2: {:?}", part1_solution, part2_solution);
 }

@@ -1,7 +1,5 @@
-use std::io::{self, prelude::*, BufReader};
+use std::io::{prelude::*, BufReader};
 use std::fs::File;
-use std::collections::HashMap;
-use itertools::Itertools;
 
 pub fn parse_input(filename: &str) -> Vec<String> {
     let f = File::open(filename).unwrap();
@@ -15,16 +13,16 @@ pub fn parse_input(filename: &str) -> Vec<String> {
 }
 
 pub fn traverse(input: &Vec<String>, x: usize, y: usize) -> i32 {
-    let numOfTrees = &input.iter().step_by(y).skip(1).fold((0,0), |(mut treeCount, mut index), i| {
+    let num_of_trees = &input.iter().step_by(y).skip(1).fold((0,0), |(mut tree_count, mut index), i| {
         let str_len = i.len();
         index += x; 
 
         if i.as_bytes()[index % str_len] == b'#'{
-            treeCount += 1;
+            tree_count += 1;
         }
-        (treeCount, index)
+        (tree_count, index)
     });
-    numOfTrees.0
+    num_of_trees.0
 }
 
 pub fn solve_part1(input: &Vec<String>) -> i32 {
@@ -34,9 +32,9 @@ pub fn solve_part1(input: &Vec<String>) -> i32 {
 pub fn solve_part2(input: &Vec<String>) -> i64 {
     let slopes = vec![(1,1), (3,1), (5,1), (7,1), (1,2)];
 
-    let product = slopes.iter().fold(1, |mut p, i| {
-        let treeCount = traverse(input, i.0, i.1) as i64;
-        p * treeCount
+    let product = slopes.iter().fold(1, |p, i| {
+        let tree_count = traverse(input, i.0, i.1) as i64;
+        p * tree_count
     });
 
     product

@@ -1,16 +1,15 @@
 use std::fs;
-use itertools::Itertools;
 use std::collections::HashSet;
 use rayon::prelude::*;
 
 pub fn solve_part1(input: &str) -> usize {
     let customs_answers= input.split("\n\n").collect::<Vec::<&str>>().iter().fold(0, |mut acc, i| {
-        let currGroup = i.chars().fold(HashSet::new(), |mut hash, question| {
+        let curr_group = i.chars().fold(HashSet::new(), |mut hash, question| {
             if question != '\n' {
                 hash.insert(question);
             }
             hash });
-        acc += currGroup.len();
+        acc += curr_group.len();
         acc
     });
     customs_answers
@@ -27,13 +26,14 @@ pub fn solve_part2(input: &str) -> usize {
             hashes
         });
 
-        let same_answers = {if (group_answers.len() > 1)
-        {
-            group_answers.par_iter().cloned().reduce_with(|a, b| a.intersection(&b).cloned().collect()).unwrap().len()
-        }
-        else {
-            group_answers[0].len()
-        }};
+        let same_answers = {
+            if group_answers.len() > 1
+            {
+                group_answers.par_iter().cloned().reduce_with(|a, b| a.intersection(&b).cloned().collect()).unwrap().len()
+            }
+            else {
+                group_answers[0].len()
+            }};
         total += same_answers;
         total
     });

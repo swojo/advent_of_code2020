@@ -8,7 +8,7 @@ pub fn solve_part1(input_vec : &Vec<(&str, i32)>) -> i32
 
     let mut visited = vec![false; input_vec.len()];
 
-    while (visited[index] != true || index == input_vec.len())
+    while visited[index] != true || index == input_vec.len()
     { 
         curr_tuple = input_vec[index];
         visited[index] = true;
@@ -31,7 +31,7 @@ pub fn solve_part1(input_vec : &Vec<(&str, i32)>) -> i32
 
 pub fn solve() {
     let input = tools::parser::parse_input("inputs/input8.txt");
-    let mut input_tuples : Vec<(&str, i32)> = input.iter()
+    let input_tuples : Vec<(&str, i32)> = input.iter()
         .map(|x| {
             let mut splitx = x.split_whitespace();
             (splitx.next().unwrap(), 
